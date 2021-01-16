@@ -9,9 +9,9 @@ const { getPullRequestContributionByRepositoryByUser } = require("./queries")
  * @param {*} key contributionCollection type-based key. ie. 'pullRequestContributionsByRepository'
  * @param {*} query gql query must contain user.contributionsCollection[key]
  */
-const contributionResolver = async (login, ctx, type, key) => {
+const contributionResolver = async (login, ctx, type, key, query) => {
     const { data: { user } } = await ctx.client.query({
-      query: getPullRequestContributionByRepositoryByUser,
+      query,
       variables: { login },
     })
     const byRepos = user.contributionsCollection[key]

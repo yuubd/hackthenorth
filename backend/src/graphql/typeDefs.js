@@ -64,6 +64,7 @@ const typeDefs = gql`
     user(login: String!): GithubUser,
     pullRequestsContributionByUser(logins: String!): [ContributionsByUser]!
     commitsContributionByUser(logins: String!): [ContributionsByUser]!
+    issuesContributionByUser(logins: String!): [ContributionsByUser]!
   }
 `
 
