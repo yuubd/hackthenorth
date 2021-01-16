@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/yuubd/hackthenorth.git",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node --exec babel-node -r node_modules/dotenv/config dotenv/config src/index.js",
+    "watch": "nodemon -r dotenv/config src/index.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^3.0.0-alpha.1",
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-link-http": "^1.5.17",
+    "apollo-server": "^2.19.2",
+    "dotenv": "^8.2.0",
+    "graphql-tag": "^2.11.0",
+    "node-fetch": "^2.6.1",
+    "postgres": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel-node": "^0.0.1-security",
+    "nodemon": "^2.0.7"
+  }
+}
