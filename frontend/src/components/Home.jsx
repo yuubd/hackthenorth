@@ -3,9 +3,11 @@ import styled from 'styled-components'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard } from './Cards'
 
 const Section = styled.div`
-    width: 1024px;
+    width: 1300px;
+    margin: auto;
     display: flex;
-    @media (max-width: 1024px) {
+    justify-content: space-between;
+    @media (max-width: 1200px) {
         width: 100%;
     }
 `
@@ -23,7 +25,7 @@ const issues = [{ title: 'Document our official blue color', labels: [{ name: 'D
 const Home = () => {
     return (
         <Section>
-            <div>
+            <div style={{ width: 630 }}>
                 <>
                     <p>Welcome to Open Source</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -40,7 +42,7 @@ const Home = () => {
                     <p>Contributions</p>
                 </>
             </div>
-            <div>
+            <div style={{ width: 630 }}>
                 <div style={{ display: 'flex' }}>
                     <div>
                         <div style={{ display: 'flex' }}>
@@ -52,7 +54,7 @@ const Home = () => {
                             <Square />
                         </div>
                     </div>
-                    <div style={{ width: 433, height: 178, borderRadius: 5, boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.25)' }}></div>
+                    <div style={{ width: 430, height: 178, borderRadius: 5, boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.25)' }}></div>
                 </div>
                 <div>
                     <>

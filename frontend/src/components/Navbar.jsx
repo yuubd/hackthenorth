@@ -6,6 +6,7 @@ const StyledNavbar = styled.div`
     height: 50px;
 `
 const Heading = styled.h1`
+    margin-left: 15px;
     font-size: 18px;
 `
 

@@ -11,6 +11,7 @@ const Title = styled.p`
     font-size: 14px;
 `
 const Label = styled.div`
+    width: fit-content;
     height: 20px;
     border-radius: 10px;
     background-color: ${({color}) => color}
