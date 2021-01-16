@@ -1,3 +1,4 @@
+const { contributionResolver } = require('./contributionResolver')
 const {
   getRateLimit,
   getGithubUser,
@@ -37,35 +38,19 @@ const resolvers = {
       }
     },
     pullRequestsContributionByUser: async (parent, args, ctx) => {
-      const res = []
-      const usersArr = args.users.split(',').map(userStr => userStr.trim())
+      let res = []
+      const logins = args.logins.split(',').map(userStr => userStr.trim())
 
-      for (const login of usersArr) {
-        const { data: { user } } = await ctx.client.query({
-          query: getPullRequestContributionByRepositoryByUser,
-          variables: { login }
-        })
-        const prsByRepos = user.contributionsCollection.pullRequestContributionsByRepository
-
-        const userContributions = []
-        for (const { repository: { url, name, nameWithOwner }, contributions } of prsByRepos) {
-          for (const { occurredAt } of contributions.nodes) {
-            userContributions.push({
-              repoUrl: url,
-              repoName: name,
-              repoNameWithOwner: nameWithOwner,
-              occurredAt,
-            })
-          }
-        }
-        res.push({
-          type: "PULL_REQUEST",
-          user: user,
-          contributions: userContributions,
-        })
+      for (const login of logins) {
+        const contributionByUser = await contributionResolver(
+          login, ctx, "PULL_REQUEST", "pullRequestContributionsByRepository", getPullRequestContributionByRepositoryByUser)
+        res = res.concat(contributionByUser)
       }
 
-      return res;
+      return res
+    },
+    commitsContributionByUser: async (parent, args, ctx) => {
+
     }
   },
 }

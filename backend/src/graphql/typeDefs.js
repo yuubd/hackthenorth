@@ -52,7 +52,7 @@ const typeDefs = gql`
   type ContributionsByUser {
     type: String
     user: GithubUser
-    contributions: [PullRequestContribution]!
+    contributions: [Contribution]!
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -62,7 +62,8 @@ const typeDefs = gql`
     rateLimit: RateLimit,
     dbTest: DBTest,
     user(login: String!): GithubUser,
-    pullRequestsContributionByUser(users: String!): [ContributionsByUser]!
+    pullRequestsContributionByUser(logins: String!): [ContributionsByUser]!
+    commitsContributionByUser(logins: String!): [ContributionsByUser]!
   }
 `
 
