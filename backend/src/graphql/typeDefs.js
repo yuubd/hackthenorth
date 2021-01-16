@@ -43,21 +43,21 @@ const typeDefs = gql`
   }
 
   type Project {
-    id: ID!,
+    projectid: ID!,
     name: String!, 
     url: String!,
     language: String!,
-    createdSince Int,
-    updatedSince Int,
-    contributorCount Int,
-    orgCount Int,
-    commitFrequency Float,
-    recentReleasesCount Int,
-    updatedIssuesCount Int,
-    closedIssuesCount Int,
-    commentFrequency Float,
-    dependentsCount Int,
-    criticalityScore Float!
+    created_since: Int,
+    updated_since: Int,
+    contributor_count: Int,
+    org_count: Int,
+    commit_frequency: Float,
+    recent_releases_count: Int,
+    updated_issues_count: Int,
+    closed_issues_count: Int,
+    comment_frequency: Float,
+    dependents_count: Int,
+    criticality_score: Float!
   }
 
 
@@ -68,7 +68,7 @@ const typeDefs = gql`
     rateLimit: RateLimit,
     dbTest: DBTest,
     user(login: String!): GithubUser,
-    mostCritProjects(language: String): [Project]
+    mostCritProjects(language: String = "all"): [Project]
   }
 `
 

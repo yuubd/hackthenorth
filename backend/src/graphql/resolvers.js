@@ -9,8 +9,9 @@ const resolvers = {
         const res = { data, loading, networkStatus, stale } = await ctx.client.query({ query: getRateLimit })
         console.log('rateLimit', res)
         return data.rateLimit
-      } catch {
-        return null
+      } catch (e) {
+        console.log("ERROR:", e);
+        return null;
       }
     },
     dbTest: async (parent, args, ctx) => {
@@ -18,7 +19,8 @@ const resolvers = {
         const [data, count, command] = await ctx.sql`SELECT id FROM test`
         console.log('dbTest', data)
         return data
-      } catch {
+      } catch (e) {
+        console.log("ERROR:", e);
         return null;
       }
     },
@@ -28,24 +30,34 @@ const resolvers = {
         const res = { data } = await ctx.client.query({
           query: getGithubUser,
           variables: { login },
+
         })
         console.log('user', res)
         return data.user
-      } catch {
-        return null
+      } catch (e) {
+        console.log("ERROR:", e);
+        return null;
       }
     },
     mostCritProjects: async (parent, args, ctx) => {
       try {
         const { language } = args;
-        const where = language === 'all' ? '' : `WHERE language='${language}'`;
-        const res = { data } = await ctx.sql`
-          SELECT * FROM open_source_projects ${where}
-          ORDER BY criticality_score DESC
-          LIMIT 50
-        `
+        const res = language === 'all' ?
+          await ctx.sql`
+            SELECT * FROM open_source_projects
+            ORDER BY criticality_score DESC
+            LIMIT 50
+            ` :
+          await ctx.sql`
+            SELECT * FROM open_source_projects WHERE language=${language}
+            ORDER BY criticality_score DESC
+            LIMIT 50
+            `
+
+        console.log("res", res);
         return res;
-      } catch {
+      } catch (e) {
+        console.log("ERROR:", e);
         return null;
       }
     }
