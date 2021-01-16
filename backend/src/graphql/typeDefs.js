@@ -42,6 +42,25 @@ const typeDefs = gql`
     updatedAt: String!
   }
 
+  type Project {
+    id: ID!,
+    name: String!, 
+    url: String!,
+    language: String!,
+    createdSince Int,
+    updatedSince Int,
+    contributorCount Int,
+    orgCount Int,
+    commitFrequency Float,
+    recentReleasesCount Int,
+    updatedIssuesCount Int,
+    closedIssuesCount Int,
+    commentFrequency Float,
+    dependentsCount Int,
+    criticalityScore Float!
+  }
+
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -49,6 +68,7 @@ const typeDefs = gql`
     rateLimit: RateLimit,
     dbTest: DBTest,
     user(login: String!): GithubUser,
+    mostCritProjects(language: String): [Project]
   }
 `
 
