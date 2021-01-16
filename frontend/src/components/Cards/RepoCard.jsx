@@ -12,12 +12,17 @@ const Block = styled.div`
 `
 const Title = styled.div`
     font-size: 14px;
+    height: fit-content;
+    margin: auto 0;
 `
 const Label = styled.span`
     background-color: ${({color}) => color};
     border-radius: 15px;
     font-size: 12px;
-    height: 20px;
+    height: fit-content;
+    margin: auto 0;
+    padding: 0 2.5px;
+    color: white;
 `
 const Timestamp = styled.span`
     position: absolute;
@@ -29,7 +34,11 @@ const Line = styled.div`
     width: 300px;
     height: 38px;
     display: flex;
-    justify-content:
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
 `
 
 // https://stackoverflow.com/questions/19407305/how-to-show-only-hours-and-minutes-from-javascript-date-tolocaletimestring

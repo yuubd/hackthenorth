@@ -4,25 +4,30 @@ import styled from 'styled-components'
 const Card = styled.div`
     width: 200px;
     height: 240px;
+    padding: 10px;
+    box-sizing: border-box;
     border-radius: 5px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+    font-size: 12px;
 `
-const Title = styled.p`
+const Title = styled.div`
     font-size: 14px;
 `
-const Label = styled.div`
-    width: fit-content;
-    height: 20px;
-    border-radius: 10px;
-    background-color: ${({color}) => color}
+const Label = styled.span`
+    background-color: ${({color}) => color};
+    border-radius: 15px;
+    height: fit-content;
+    margin: auto 5px auto 0;
+    padding: 0 2.5px;
+    color: white;
 `
 
 const IssueCard = ({ title, labels, comments }) => {
     return (
         <Card>
             <Title>{title}</Title>
-            {labels.map(({ name, color }) => <Label color={color}>{name}</Label>)}
-            <span>{comments} comments</span>
+            {labels.map(({ name, color }) => <Label key={name} color={color}>{name}</Label>)}
+            <div>{comments} comments</div>
         </Card>
     )
 }
