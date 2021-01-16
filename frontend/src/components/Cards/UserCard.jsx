@@ -1,13 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import Box from './Box'
 
-const Card = styled.div`
-    width: 200px;
-    height: 125px;
+const Card = styled(Box)`
     display: flex;
-    border-radius: 5px;
     font-size: 12px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
 `
 const Avatar = styled.img`
     width: 50px;
@@ -18,7 +15,7 @@ const Avatar = styled.img`
 
 const UserCard = ({ name, login, followers, following, avatar_url }) => {
     return (
-        <Card>
+        <Card w={200} h={125}>
             <div style={{
                 flex: 1,
                 display: 'flex',

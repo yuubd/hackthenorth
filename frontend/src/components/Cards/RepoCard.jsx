@@ -1,13 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Box from './Box'
 
-const Block = styled.div`
-    padding: 10px;
-    box-sizing: border-box;
-    width: 200px;
-    height: 125px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+const Block = styled(Box)`
     position: relative;
 `
 const Title = styled.div`
@@ -30,15 +25,13 @@ const Timestamp = styled.span`
     right: 10px;
     font-size: 10px;
 `
-const Line = styled.div`
-    width: 300px;
-    height: 38px;
+const Line = styled(Box)`
     display: flex;
     justify-content: space-between;
-    border-radius: 5px;
-    padding: 10px;
-    box-sizing: border-box;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+    margin-bottom: 5px;
+    &:last-child {
+        margin-bottom: 0;
+    }
 `
 
 // https://stackoverflow.com/questions/19407305/how-to-show-only-hours-and-minutes-from-javascript-date-tolocaletimestring
@@ -54,7 +47,7 @@ const time = date => (date ? new Date(date) : new Date()).toLocaleTimeString(nav
 
 export const BlockRepoCard = ({ full_name, language, created_at }) => {
     return (
-        <Block>
+        <Block w={200} h={125}>
             <Title>{full_name}</Title>
             <Label color="#22D273">{language}</Label>
             <Timestamp>Created at {time(created_at)}</Timestamp>
@@ -64,7 +57,7 @@ export const BlockRepoCard = ({ full_name, language, created_at }) => {
 
 export const LineRepoCard = ({ full_name, language }) => {
     return (
-        <Line>
+        <Line w={300} h={38}>
             <Title>{full_name}</Title>
             <Label color="#22D273">{language}</Label>
         </Line>

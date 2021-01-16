@@ -1,13 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Box from './Box'
 
-const Card = styled.div`
-    width: 200px;
-    height: 240px;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
+const Card = styled(Box)`
     font-size: 12px;
 `
 const Title = styled.div`
@@ -24,7 +19,7 @@ const Label = styled.span`
 
 const IssueCard = ({ title, labels, comments }) => {
     return (
-        <Card>
+        <Card w={200} h={240}>
             <Title>{title}</Title>
             {labels.map(({ name, color }) => <Label key={name} color={color}>{name}</Label>)}
             <div>{comments} comments</div>
