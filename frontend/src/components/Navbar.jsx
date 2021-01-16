@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const StyledNavbar = styled.div`
     width: 100%;
+    position: fixed;
 `
 const Heading = styled.p`
     margin-left: 15px;

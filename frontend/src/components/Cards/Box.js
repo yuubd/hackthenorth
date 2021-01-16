@@ -9,7 +9,7 @@ const Box = styled.div`
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
     @media (max-width: 768px) {
         width: 100%;
-        height: auto;
+        height: ${({fixed, h}) => fixed ? `${h}px` : 'auto'};
         margin-bottom: 5px;
         &:last-child {
             margin-bottom: 0;
