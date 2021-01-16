@@ -167,7 +167,10 @@ const Stats = () => (
                     </Square>
                 </div>
             </BigSquare>
-            <Box w={430} h={180} style={{ height: 180 }} />
+            <Box w={430} h={180} style={{ height: 180 }}>
+                <div>Criticality score</div>
+                <p style={{ fontSize: 14 }}>Curious how we compute criticality score? Check out <a href="https://github.com/ossf/criticality_score">ossf/criticality_score</a> for more information!</p>
+            </Box>
         </Flex>
     </>
 )
