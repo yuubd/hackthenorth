@@ -47,17 +47,17 @@ const typeDefs = gql`
     name: String!, 
     url: String!,
     language: String!,
-    createdSince Int,
-    updatedSince Int,
-    contributorCount Int,
-    orgCount Int,
-    commitFrequency Float,
-    recentReleasesCount Int,
-    updatedIssuesCount Int,
-    closedIssuesCount Int,
-    commentFrequency Float,
-    dependentsCount Int,
-    criticalityScore Float!
+    createdSince: Int,
+    updatedSince: Int,
+    contributorCount: Int,
+    orgCount: Int,
+    commitFrequency: Float,
+    recentReleasesCount: Int,
+    updatedIssuesCount: Int,
+    closedIssuesCount: Int,
+    commentFrequency: Float,
+    dependentsCount: Int,
+    criticalityScore: Float!
   }
 
 
