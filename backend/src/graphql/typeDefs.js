@@ -31,7 +31,6 @@ const typeDefs = gql`
     location: String
     email: String
     company: String
-    hireable: Boolean
     twitterUsername: String
     followers: Followers!
     following: Following!
@@ -40,6 +39,19 @@ const typeDefs = gql`
     websiteUrl: String # blog
     createdAt: String!
     updatedAt: String!
+  }
+
+  type Contribution {
+    repoUrl: String
+    repoName: String
+    repoNameWithOwner: String
+    occurredAt: String
+  }
+
+  type ContributionsByUser {
+    type: String
+    user: GithubUser
+    contributions: [Contribution]!
   }
 
   type Project {
@@ -60,7 +72,6 @@ const typeDefs = gql`
     criticality_score: Float!
   }
 
-
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
@@ -68,6 +79,9 @@ const typeDefs = gql`
     rateLimit: RateLimit,
     dbTest: DBTest,
     user(login: String!): GithubUser,
+    pullRequestsContributionByUser(logins: String!): [ContributionsByUser]!,
+    commitsContributionByUser(logins: String!): [ContributionsByUser]!,
+    issuesContributionByUser(logins: String!): [ContributionsByUser]!,
     mostCritProjects(language: String = "all"): [Project]
   }
 `

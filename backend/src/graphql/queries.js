@@ -24,7 +24,6 @@ const getGithubUser = gql `
       avatarUrl(size: 128)
       url
       bio
-      isHireable
       company
       createdAt
       twitterUsername
@@ -49,7 +48,162 @@ const getGithubUser = gql `
   }
 `
 
+const getPullRequestContributionByRepositoryByUser = gql `
+  query getPullRequestContributionByRepositoryByUser($login: String!) {
+    user(login: $login) {
+      id
+      login
+      name
+      bio
+      location
+      email
+      company
+      twitterUsername
+      followers(first: 1) {
+        totalCount
+      }
+      following(first: 1) {
+        totalCount
+      }
+      repositories(first: 1) {
+        totalCount
+      }
+      gists(first: 1) {
+        totalCount
+      }
+      starredRepositories(first: 1) {
+        totalCount
+      }
+      url
+      avatarUrl
+      websiteUrl
+      createdAt
+      updatedAt
+      contributionsCollection {
+        pullRequestContributionsByRepository {
+          repository {
+            url
+            name
+            nameWithOwner
+          }
+          contributions(last: 100) {
+            totalCount
+            nodes {
+              occurredAt
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const getCommitContributionByRepositoryByUser = gql `
+  query getCommitContributionByRepositoryByUser($login: String!) {
+    user(login: $login) {
+      id
+      login
+      name
+      bio
+      location
+      email
+      company
+      twitterUsername
+      followers(first: 1) {
+        totalCount
+      }
+      following(first: 1) {
+        totalCount
+      }
+      repositories(first: 1) {
+        totalCount
+      }
+      gists(first: 1) {
+        totalCount
+      }
+      starredRepositories(first: 1) {
+        totalCount
+      }
+      url
+      avatarUrl
+      websiteUrl
+      createdAt
+      updatedAt
+      contributionsCollection {
+        commitContributionsByRepository {
+          repository {
+            url
+            name
+            nameWithOwner
+          }
+          contributions(last: 100) {
+            totalCount
+            nodes {
+              occurredAt
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+const getIssueContributionByRepositoryByUser = gql `
+  query getIssueContributionByRepositoryByUser($login: String!) {
+    user(login: $login) {
+      id
+      login
+      name
+      bio
+      location
+      email
+      company
+      twitterUsername
+      followers(first: 1) {
+        totalCount
+      }
+      following(first: 1) {
+        totalCount
+      }
+      repositories(first: 1) {
+        totalCount
+      }
+      gists(first: 1) {
+        totalCount
+      }
+      starredRepositories(first: 1) {
+        totalCount
+      }
+      url
+      avatarUrl
+      websiteUrl
+      createdAt
+      updatedAt
+      contributionsCollection {
+        issueContributionsByRepository {
+          repository {
+            url
+            name
+            nameWithOwner
+          }
+          contributions(last: 100) {
+            totalCount
+            nodes {
+              occurredAt
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+
+
 module.exports = {
   getRateLimit,
   getGithubUser,
+  getPullRequestContributionByRepositoryByUser,
+  getCommitContributionByRepositoryByUser,
+  getIssueContributionByRepositoryByUser,
 }
