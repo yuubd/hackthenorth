@@ -5,38 +5,33 @@ import Box from './Box'
 const Card = styled(Box)`
     display: flex;
     font-size: 12px;
+    @media (max-width: 768px) {
+        height: 150px;
+    }
 `
 const Avatar = styled.img`
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-bottom: 5px;
+    object-fit: cover;
+    border-radius: 5px 0 0 5px;
+    margin: -10px;
+    width: 50%;
 `
-
+const UserInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    text-align: center;
+    width: 50%;
+`
 const UserCard = ({ name, login, followers, following, avatar_url }) => {
     return (
         <Card w={200} h={125}>
-            <div style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
-                <Avatar src={avatar_url} alt="profile" />
-                {/* <div style={{ fontWeight: 'bold' }}>{name}</div> */}
+            <Avatar src={avatar_url} alt="profile" />
+            <UserInfo>
                 <div>{login}</div>
-            </div>
-            <div style={{
-                flex: 1.5,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
                 <div>{followers} followers</div>
                 <div>{following} following</div>
-            </div>
+            </UserInfo>
         </Card>
     )
 }

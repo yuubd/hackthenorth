@@ -1,16 +1,18 @@
-import { findByPlaceholderText } from '@testing-library/react'
 import React from 'react'
 import styled from 'styled-components'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
 
 const Section = styled.div`
+    box-sizing: border-box;
     width: 1300px;
     margin: auto;
     display: flex;
     justify-content: space-between;
     @media (max-width: 1300px) {
-        width: 100%;
+        box-sizing: border-box;
         display: block;
+        padding: 20px;
+        width: 100%;
     }
 `
 const Flex = styled.div`
@@ -25,15 +27,29 @@ const Column = styled.div`
     @media (max-width: ${({bp}) => bp}px) {
         margin: auto;
     }
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `
 const Square = styled(Box)`
-    width: ${({w}) => w}px;
     height: ${({h}) => h}px;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0;
+    @media (max-width: 768px) {
+        &:first-child {
+            margin-right: 15px;
+        }
+    }
+`
+const BigSquare = styled.div`
+    width: ${({w}) => w}px;
+    height: ${({h}) => h}px;
+    @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+    }
 `
 
 const repos = [{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
@@ -63,31 +79,34 @@ const Contributions = () => (
     </div>
 )
 const Stats = () => (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ width: 180 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                <Square w={85} h={85}>
-                    <div style={{ fontWeight: 'bold', fontSize: 18 }}>21</div>
-                    <div>Issues</div>
-                </Square>
-                <Square w={85} h={85}>
-                    <div style={{ fontWeight: 'bold', fontSize: 18 }}>50</div>
-                    <div>Commits</div>
-                </Square>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Square w={85} h={85}>
-                    <div style={{ fontWeight: 'bold', fontSize: 18 }}>2.8M</div>
-                    <div>Users</div>
-                </Square>
-                <Square w={85} h={85}>
-                    <div style={{ fontWeight: 'bold', fontSize: 18 }}>12</div>
-                    <div>PRs</div>
-                </Square>
-            </div>
-        </div>
-        <Box style={{ width: 430, height: 180 }} />
-    </div>
+    <>
+        <p>Statistics</p>
+        <Flex>
+            <BigSquare w={180} h={180}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <Square w={85} h={85}>
+                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>21</div>
+                        <div>Issues</div>
+                    </Square>
+                    <Square w={85} h={85}>
+                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>50</div>
+                        <div>Commits</div>
+                    </Square>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <Square w={85} h={85}>
+                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>2.8M</div>
+                        <div>Users</div>
+                    </Square>
+                    <Square w={85} h={85}>
+                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>12</div>
+                        <div>PRs</div>
+                    </Square>
+                </div>
+            </BigSquare>
+            <Box w={430} h={180} style={{ height: 180 }} />
+        </Flex>
+    </>
 )
 const MostCritical = () => (
     <div>
@@ -104,9 +123,9 @@ const HelpWanted = () => (
 const GoodFirstIssues = () => (
     <div>
         <p>Good First Issues</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Flex>
             {issues.map((props, i) => <IssueCard key={i} {...props} />)}
-        </div>
+        </Flex>
     </div>
 )
 

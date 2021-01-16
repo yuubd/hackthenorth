@@ -3,9 +3,8 @@ import styled from 'styled-components'
 
 const StyledNavbar = styled.div`
     width: 100%;
-    height: 50px;
 `
-const Heading = styled.h1`
+const Heading = styled.p`
     margin-left: 15px;
     font-size: 18px;
 `
