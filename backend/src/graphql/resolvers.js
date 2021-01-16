@@ -38,7 +38,7 @@ const resolvers = {
     mostCritProjects: async (parent, args, ctx) => {
       try {
         const { language } = args;
-        const where = language === 'all' ? '' : `WHERE language=${language}`;
+        const where = language === 'all' ? '' : `WHERE language='${language}'`;
         const res = { data } = await ctx.sql`
           SELECT * FROM open_source_projects ${where}
           ORDER BY criticality_score DESC
