@@ -1,4 +1,5 @@
-const { contributionResolver } = require('./contributionResolver')
+const { camelCase } = require('camel-case');
+const { contributionResolver } = require('./contributionResolver');
 const {
   getRateLimit,
   getGithubUser,
@@ -6,7 +7,8 @@ const {
   getCommitContributionByRepositoryByUser,
   getIssueContributionByRepositoryByUser,
   getTopIssues,
-} = require('./queries')
+} = require('./queries');
+
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -83,7 +85,7 @@ const resolvers = {
     mostCritProjects: async (parent, args, ctx) => {
       try {
         const { language } = args;
-        const res = language === 'all' ?
+        const data = language === 'all' ?
           await ctx.sql`
             SELECT * FROM open_source_projects
             ORDER BY criticality_score DESC
@@ -94,6 +96,11 @@ const resolvers = {
             ORDER BY criticality_score DESC
             LIMIT 50
             `
+<<<<<<< HEAD
+=======
+        const res = data.map((obj) => updateCamelCaseKeys(obj));
+
+>>>>>>> master
         return res;
       } catch (e) {
         console.error("mostCritProjects", e);
@@ -123,8 +130,28 @@ const resolvers = {
         console.error('topIssues', e)
         return null;
       }
+    },
+    projectDetail: async (parent, args, ctx) => {
+      try {
+        const { fullName } = args;
+        const data = await ctx.sql`
+          SELECT * FROM open_source_projects WHERE full_name=${fullName}
+          LIMIT 1
+          `
+          const res = updateCamelCaseKeys(data[0]);
+          return res;
+      } catch (e) {
+        console.log("ERROR:", e);
+        return null;
+      }
     }
   },
+}
+
+function updateCamelCaseKeys(obj) {
+  let newObj = {}
+  Object.keys(obj).map(key => newObj[camelCase(key)] = obj[key]);
+  return newObj;
 }
 
 module.exports = {
