@@ -156,7 +156,8 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
     if (error) return `Error! ${error.message}`
 
     return (    
-        <> 
+        <>
+            <p>Statistics</p>
             <Flex>
                 <BigSquare w={180} h={180}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
