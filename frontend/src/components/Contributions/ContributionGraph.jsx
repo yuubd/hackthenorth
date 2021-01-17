@@ -51,24 +51,24 @@ const Contributions = ({ logins, query }) => {
         axisTop={null}
         axisRight={null}
         axisLeft={{
-            legend: 'count #',
+            legend: 'count',
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
             legendOffset: 12,
         }}
         axisBottom={{
-            format: '%b %d',
+            format: '%b',
             tickValues: 'every 1 month',
             legend: 'time period',
-            legendOffset: -12,
+            legendOffset: -6,
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
         }}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        enablePointLabel={true}
-        pointSize={16}
+        enablePointLabel={false}
+        pointSize={6}
         pointBorderWidth={1}
         pointBorderColor={{
             from: 'color',

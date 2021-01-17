@@ -161,23 +161,23 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
             <Flex>
                 <BigSquare w={180} h={180}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 20 }}>{millify(data.recentStatistics.issueCount, {precision: 1})}</div>
-                            <div>Issues</div>
+                        <Square w={85} h={85} style={{ background: '#ffc429' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white'}}>{millify(data.recentStatistics.issueCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Issues</div>
                         </Square>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 20 }}>{millify(data.recentStatistics.repositoryCount, {precision: 1})}</div>
-                            <div>Repos</div>
+                        <Square w={85} h={85} style={{ background: '#ffa929' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white' }}>{millify(data.recentStatistics.repositoryCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Repos</div>
                         </Square>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 20 }}>{millify(data.recentStatistics.userCount, {precision: 1})}</div>
-                            <div>Users</div>
+                        <Square w={85} h={85} style={{ background: '#ff8a1f' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white' }}>{millify(data.recentStatistics.userCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Users</div>
                         </Square>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 20 }}>{millify(data.recentStatistics.pullRequestCount, {precision: 1})}</div>
-                            <div>PRs</div>
+                        <Square w={85} h={85} style={{ background: '#ffc429' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white'}}>{millify(data.recentStatistics.pullRequestCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>PRs</div>
                         </Square>
                     </div>
                 </BigSquare>
