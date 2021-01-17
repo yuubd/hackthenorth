@@ -55,22 +55,24 @@ const typeDefs = gql`
   }
 
   type Project {
-    projectid: ID!,
+    projectId: ID!,
     name: String!, 
     url: String!,
+    fullName: String!,
     language: String!,
-    created_since: Int,
-    updated_since: Int,
-    contributor_count: Int,
-    org_count: Int,
-    commit_frequency: Float,
-    recent_releases_count: Int,
-    updated_issues_count: Int,
-    closed_issues_count: Int,
-    comment_frequency: Float,
-    dependents_count: Int,
-    criticality_score: Float!
+    createdSince: Int,
+    updatedSince: Int,
+    contributorCount: Int,
+    orgCount: Int,
+    commitFrequency: Float,
+    recentReleasesCount: Int,
+    updatedIssuesCount: Int,
+    closedIssuesCount: Int,
+    commentFrequency: Float,
+    dependentsCount: Int,
+    criticalityScore: Float!
   }
+
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
@@ -82,7 +84,7 @@ const typeDefs = gql`
     pullRequestsContributionByUser(logins: String!): [ContributionsByUser]!,
     commitsContributionByUser(logins: String!): [ContributionsByUser]!,
     issuesContributionByUser(logins: String!): [ContributionsByUser]!,
-    mostCritProjects(language: String = "all"): [Project]
+    mostCritProjects(language: String = "all"): [Project],
   }
 `
 
