@@ -25,7 +25,7 @@ const IssueCard = ({ title, body, createdAt, labels }) => {
             <div>
                 {labels.map(({ name, color }) => <Label key={name} color={color}>{name}</Label>)}
             </div>
-            <div style={{ overflowWrap: 'anywhere' }}>{body.slice(0, 200)}</div>
+            <div style={{ overflowWrap: 'anywhere' }}>{body.slice(0, 200) + (body.length > 200 ? '...' : '')}</div>
         </Card>
     )
 }
