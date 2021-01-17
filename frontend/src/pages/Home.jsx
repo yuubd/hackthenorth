@@ -22,27 +22,43 @@ query ($language: String) {
     }
 }
 `
-
 const GET_ISSUES = gql`
-    query {
-        topIssues {
-            id
-            title
+query {
+    topIssues {
+        id
+        title
+        url
+        body
+        createdAt
+        updatedAt
+        repository {
             url
-            body
-            createdAt
-            updatedAt
-            repository {
-                url
-                name
-                nameWithOwner
-            }
-            labels {
-                id
-                name
-                color
-                isDefault
-            }
+            name
+            nameWithOwner
+        }
+        labels {
+            id
+            name
+            color
+            isDefault
+        }
+    }
+}
+`
+const GET_NEWS = gql`
+query {
+    recentRepositories {
+        url
+        name
+        nameWithOwner
+        description
+        stargazerCount
+        createdAt
+        updatedAt
+        primaryLanguage {
+            id
+            name
+            color
         }
     }
 }
@@ -97,19 +113,24 @@ const BigSquare = styled.div`
     }
 `
 
-const repos = [{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
-const lines = [{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'mui-org/material-ui', language: 'JavaScript', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
 const users = [{ name: 'GwangChul Kim', login: 'yuubd', followers: 6, following: 6, avatar_url: 'https://avatars1.githubusercontent.com/u/29908984?s=460&u=2573e8a1294b10ae94257ba1b953b6c9a5acebe1&v=4' },{ name: 'Seung Won [Tom] Lee', login: 'bwdmonkey', followers: 17, following: 17, avatar_url: 'https://avatars0.githubusercontent.com/u/19914676?s=460&u=3bc02c0251fdd392d3edb2183c050ad13e4232ef&v=4' },{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' }]
 const data = [{"id":"commits","color":"hsl(348, 95%, 68%)","data":[{"x":"plane","y":186},{"x":"helicopter","y":234},{"x":"boat","y":126},{"x":"train","y":227},{"x":"subway","y":158},{"x":"bus","y":104},{"x":"car","y":226},{"x":"moto","y":287},{"x":"bicycle","y":17},{"x":"horse","y":11},{"x":"skateboard","y":187},{"x":"others","y":27}]},{"id":"pull requests","color":"hsl(39, 100%, 50%)","data":[{"x":"plane","y":5},{"x":"helicopter","y":90},{"x":"boat","y":237},{"x":"train","y":114},{"x":"subway","y":13},{"x":"bus","y":200},{"x":"car","y":166},{"x":"moto","y":287},{"x":"bicycle","y":68},{"x":"horse","y":259},{"x":"skateboard","y":77},{"x":"others","y":80}]},{"id":"comments","color":"hsl(155, 67%, 45%)","data":[{"x":"plane","y":254},{"x":"helicopter","y":201},{"x":"boat","y":196},{"x":"train","y":18},{"x":"subway","y":122},{"x":"bus","y":291},{"x":"car","y":179},{"x":"moto","y":85},{"x":"bicycle","y":164},{"x":"horse","y":1},{"x":"skateboard","y":136},{"x":"others","y":263}]}]
 
-const WelcomeToOpenSource = () => (
-    <div>
-        <p>Welcome to Open Source</p>
-        <Flex>
-            {repos.map((props, i) => <BlockRepoCard key={i} {...props} />)}
-        </Flex>
-    </div>
-)
+const WelcomeToOpenSource = () => {
+    const { loading, error, data } = useQuery(GET_NEWS)
+
+    if (loading) return 'Loading...'
+    if (error) return `Error! ${error.message}`
+
+    return (
+        <div>
+            <p>Welcome to Open Source</p>
+            <Flex>
+                {data.recentRepositories.slice(0, 3).map((props, i) => <BlockRepoCard key={i} {...props} />)}
+            </Flex>
+        </div>
+    )
+}
 const WeeklyHighlights = () => (
     <div>
         <p>Weekly Highlights</p>
