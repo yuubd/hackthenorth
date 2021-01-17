@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { gql, useQuery } from '@apollo/client'
+import { Select, MenuItem } from '@material-ui/core'
 import Contributions from '../components/Contributions'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
 
 const GET_CRITS = gql`
-    query {
-        mostCritProjects {
-            projectId
-            name
-            url
-            fullName
-            language
-            createdSince
-            contributorCount
-            commitFrequency
-            commentFrequency
-            dependentsCount
-            criticalityScore
-        }
+query ($language: String) {
+    mostCritProjects(language: $language) {
+        projectId
+        name
+        url
+        fullName
+        language
+        createdSince
+        contributorCount
+        commitFrequency
+        commentFrequency
+        dependentsCount
+        criticalityScore
     }
+}
 `
 
 const GET_ISSUES = gql`
@@ -149,6 +150,7 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
                 </div>
                 <div style={{ fontSize: 16 }}>{fullName}</div>
                 <div style={{ fontSize: 12 }}>
+                    {/* TODO: no datetime available? */}
                     <p>Created at Jan 16, 2021, 4:49 PM</p>
                     <div style={{ display: 'flex' }}>
                         <div style={{ flex: 1, padding: 10 }}>{`${dependentsCount} projects depend on this project`}</div>
@@ -175,12 +177,31 @@ const MostCritical = ({ setSelected }) => {
         </div>
     )
 }
-const HelpWanted = ({ setSelected }) => (
-    <div>
-        <p>Top 5 Help Wanted Projects</p>
-        {lines.map((props, i) => <LineRepoCard key={i} {...props} onClick={() => setSelected(props)} />)}
-    </div>
-)
+const ByLanguage = ({ setSelected, language, setLanguage }) => {
+    const { loading, error, data } = useQuery(GET_CRITS, { variables: { language } }) // language
+
+    if (loading) return 'Loading...'
+    if (error) return `Error! ${error.message}`
+
+    return (
+        <div>
+            <div style={{ display: 'flex' }}>
+                <p>Top Projects by Language</p>
+                <Select
+                    autoWidth
+                    style={{ marginLeft: 10 }}
+                    onChange={e => setLanguage(e.target.value)}>
+                    <MenuItem value="Go">Go</MenuItem>
+                    <MenuItem value="JavaScript">JavaScript</MenuItem>
+                    <MenuItem value="Rust">Rust</MenuItem>
+                    <MenuItem value="C++">C++</MenuItem>
+                    <MenuItem value="Java">Java</MenuItem>
+                </Select>
+            </div>
+            {data.mostCritProjects.slice(0, 5).map((props, i) => <LineRepoCard key={i} {...props} onClick={() => setSelected(props)} />)}
+        </div>
+    )
+}
 const GoodFirstIssues = () => {
     const { loading, error, data } = useQuery(GET_ISSUES)
 
@@ -211,6 +232,7 @@ const Home = () => {
         "dependentsCount": 407553,
         "criticalityScore": 0.98634
     })
+    const [language, setLanguage] = useState('all')
     
     return (
         <Section>
@@ -224,7 +246,10 @@ const Home = () => {
                 <div>
                     <Flex>
                         <MostCritical setSelected={setSelected} />
-                        <HelpWanted setSelected={setSelected} />
+                        <ByLanguage
+                            language={language}
+                            setSelected={setSelected}
+                            setLanguage={setLanguage} />
                     </Flex>
                     <GoodFirstIssues />
                 </div>
