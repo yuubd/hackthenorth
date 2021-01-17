@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { gql, useQuery } from '@apollo/client'
 import { Select, MenuItem } from '@material-ui/core'
 import { millify } from 'millify'
-import Contributions from '../components/Contributions'
+import ContributionTabs from '../components/Contributions/ContributionTabs'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
 
 const GET_CRITS = gql`
@@ -155,7 +155,7 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
     if (loading) return 'Loading...'
     if (error) return `Error! ${error.message}`
 
-    return (    
+    return (
         <>
             <p>Statistics</p>
             <Flex>
@@ -274,13 +274,14 @@ const Home = () => {
         "criticalityScore": 0.98634
     })
     const [language, setLanguage] = useState('all')
-    
+
     return (
         <Section>
             <Column w={630} bp={1300}>
                 <WelcomeToOpenSource />
                 <WeeklyHighlights />
-                <Contributions data={data} />
+                <br />
+                <ContributionTabs></ContributionTabs>
             </Column>
             <Column w={630} bp={1300}>
                 <Stats selected={selected} />
