@@ -108,6 +108,13 @@ const typeDefs = gql`
     criticalityScore: Float!
   }
 
+  type RecentStatistics {
+    since: String!
+    repositoryCount: Int!
+    userCount: Int!
+    pullRequestCount: Int!
+    issueCount: Int!
+  }
 
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
@@ -122,6 +129,7 @@ const typeDefs = gql`
     mostCritProjects(language: String = "all"): [Project]
     topIssues(label: LabelType = GOOD_FIRST_ISSUE, state: StateType = OPEN): [Issue]
     projectDetail(fullName: String!): Project
+    recentStatistics: RecentStatistics
   }
 `
 

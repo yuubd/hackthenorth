@@ -7,6 +7,7 @@ const {
   getCommitContributionByRepositoryByUser,
   getIssueContributionByRepositoryByUser,
   getTopIssues,
+  getRecentStatistics,
 } = require('./queries');
 
 
@@ -136,8 +137,35 @@ const resolvers = {
           const res = updateCamelCaseKeys(data[0]);
           return res;
       } catch (e) {
-        console.log("ERROR:", e);
+        console.error("projectDetail", e);
         return null;
+      }
+    },
+    recentStatistics: async (parent, args, ctx) => {
+      try {
+        const today = new Date()
+        const lastWeek = new Date(today.getDate() - 7) // -7 days
+        const baseQuery = `created:>${lastWeek.toISOString()}`
+        const prQuery = `${baseQuery} is:pr`
+        const issueQuery = `${baseQuery} is:issue`
+        const { data } = await ctx.client.query({
+          query: getRecentStatistics,
+          variables: {
+            baseQuery,
+            prQuery,
+            issueQuery,
+          }
+        })
+        return {
+          since: lastWeek.toISOString(),
+          repositoryCount: data.repos.repositoryCount,
+          userCount: data.users.userCount,
+          pullRequestCount: data.prs.issueCount,
+          issueCount: data.issues.issueCount,
+        }
+      } catch (e) {
+        console.error("recentStatistics", e)
+        return null
       }
     }
   },

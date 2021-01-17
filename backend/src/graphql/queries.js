@@ -263,6 +263,22 @@ const getTopIssues = gql `
   }
 `
 
+const getRecentStatistics = gql `
+query getRecentStatistics($baseQuery: String!, $prQuery: String!, $issueQuery: String!){
+  repos: search(query: $baseQuery, type: REPOSITORY) {
+    repositoryCount
+  }
+  users: search(query: $baseQuery, type: USER) {
+    userCount
+  }
+  prs: search(query: $prQuery, type: ISSUE) {
+    issueCount
+  }
+  issues: search(query: $issueQuery, type: ISSUE) {
+    issueCount
+  }
+}`
+
 module.exports = {
   getRateLimit,
   getGithubUser,
@@ -270,4 +286,5 @@ module.exports = {
   getCommitContributionByRepositoryByUser,
   getIssueContributionByRepositoryByUser,
   getTopIssues,
+  getRecentStatistics,
 }
