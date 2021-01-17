@@ -1,8 +1,22 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { gql, useQuery } from '@apollo/client'
 import { ResponsiveLine as Line } from '@nivo/line'
-import { StatsContext } from "../contexts/Stats"
+// import { StatsContext } from "../contexts/Stats"
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
+
+const GET_CRITS = gql`
+    query {
+        mostCritProjects {
+            projectid
+            name
+            url
+            language
+            created_since
+            criticality_score
+        }
+    }
+`
 
 const Section = styled.div`
     box-sizing: border-box;
@@ -53,11 +67,11 @@ const BigSquare = styled.div`
     }
 `
 
-const repos = [{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
-const lines = [{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'mui-org/material-ui', language: 'JavaScript', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ full_name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
-const users = [{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' },{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' },{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' }]
+const repos = [{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
+const lines = [{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'mui-org/material-ui', language: 'JavaScript', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' },{ name: 'kubernetes/kubernetes', language: 'Go', created_at: '2017-05-23T04:09:02Z' }]
+const users = [{ name: 'GwangChul Kim', login: 'yuubd', followers: 6, following: 6, avatar_url: 'https://avatars1.githubusercontent.com/u/29908984?s=460&u=2573e8a1294b10ae94257ba1b953b6c9a5acebe1&v=4' },{ name: 'Seung Won [Tom] Lee', login: 'bwdmonkey', followers: 17, following: 17, avatar_url: 'https://avatars0.githubusercontent.com/u/19914676?s=460&u=3bc02c0251fdd392d3edb2183c050ad13e4232ef&v=4' },{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' }]
 const issues = [{ title: 'Document our official blue color', labels: [{ name: 'Documentation', color: '#111E6C' }, { name: 'Critical', color: '#FF0000'}], comments: 3 },{ title: 'Document our official blue color', labels: [{ name: 'Documentation', color: '#111E6C' }, { name: 'Critical', color: '#FF0000'}], comments: 3 },{ title: 'Document our official blue color', labels: [{ name: 'Documentation', color: '#111E6C' }, { name: 'Critical', color: '#FF0000'}], comments: 3 }]
-// const data = [{"id":"japan","color":"hsl(345, 70%, 50%)","data":[{"x":"plane","y":186},{"x":"helicopter","y":234},{"x":"boat","y":126},{"x":"train","y":227},{"x":"subway","y":158},{"x":"bus","y":104},{"x":"car","y":226},{"x":"moto","y":287},{"x":"bicycle","y":17},{"x":"horse","y":11},{"x":"skateboard","y":187},{"x":"others","y":27}]},{"id":"france","color":"hsl(304, 70%, 50%)","data":[{"x":"plane","y":5},{"x":"helicopter","y":90},{"x":"boat","y":237},{"x":"train","y":114},{"x":"subway","y":13},{"x":"bus","y":200},{"x":"car","y":166},{"x":"moto","y":287},{"x":"bicycle","y":68},{"x":"horse","y":259},{"x":"skateboard","y":77},{"x":"others","y":80}]},{"id":"us","color":"hsl(65, 70%, 50%)","data":[{"x":"plane","y":254},{"x":"helicopter","y":201},{"x":"boat","y":196},{"x":"train","y":18},{"x":"subway","y":122},{"x":"bus","y":291},{"x":"car","y":179},{"x":"moto","y":85},{"x":"bicycle","y":164},{"x":"horse","y":1},{"x":"skateboard","y":136},{"x":"others","y":263}]},{"id":"germany","color":"hsl(226, 70%, 50%)","data":[{"x":"plane","y":129},{"x":"helicopter","y":92},{"x":"boat","y":36},{"x":"train","y":102},{"x":"subway","y":276},{"x":"bus","y":93},{"x":"car","y":252},{"x":"moto","y":220},{"x":"bicycle","y":263},{"x":"horse","y":34},{"x":"skateboard","y":233},{"x":"others","y":277}]},{"id":"norway","color":"hsl(299, 70%, 50%)","data":[{"x":"plane","y":178},{"x":"helicopter","y":61},{"x":"boat","y":287},{"x":"train","y":41},{"x":"subway","y":210},{"x":"bus","y":83},{"x":"car","y":195},{"x":"moto","y":281},{"x":"bicycle","y":7},{"x":"horse","y":241},{"x":"skateboard","y":234},{"x":"others","y":14}]}]
+const data = [{"id":"japan","color":"hsl(345, 70%, 50%)","data":[{"x":"plane","y":186},{"x":"helicopter","y":234},{"x":"boat","y":126},{"x":"train","y":227},{"x":"subway","y":158},{"x":"bus","y":104},{"x":"car","y":226},{"x":"moto","y":287},{"x":"bicycle","y":17},{"x":"horse","y":11},{"x":"skateboard","y":187},{"x":"others","y":27}]},{"id":"france","color":"hsl(304, 70%, 50%)","data":[{"x":"plane","y":5},{"x":"helicopter","y":90},{"x":"boat","y":237},{"x":"train","y":114},{"x":"subway","y":13},{"x":"bus","y":200},{"x":"car","y":166},{"x":"moto","y":287},{"x":"bicycle","y":68},{"x":"horse","y":259},{"x":"skateboard","y":77},{"x":"others","y":80}]},{"id":"us","color":"hsl(65, 70%, 50%)","data":[{"x":"plane","y":254},{"x":"helicopter","y":201},{"x":"boat","y":196},{"x":"train","y":18},{"x":"subway","y":122},{"x":"bus","y":291},{"x":"car","y":179},{"x":"moto","y":85},{"x":"bicycle","y":164},{"x":"horse","y":1},{"x":"skateboard","y":136},{"x":"others","y":263}]},{"id":"germany","color":"hsl(226, 70%, 50%)","data":[{"x":"plane","y":129},{"x":"helicopter","y":92},{"x":"boat","y":36},{"x":"train","y":102},{"x":"subway","y":276},{"x":"bus","y":93},{"x":"car","y":252},{"x":"moto","y":220},{"x":"bicycle","y":263},{"x":"horse","y":34},{"x":"skateboard","y":233},{"x":"others","y":277}]},{"id":"norway","color":"hsl(299, 70%, 50%)","data":[{"x":"plane","y":178},{"x":"helicopter","y":61},{"x":"boat","y":287},{"x":"train","y":41},{"x":"subway","y":210},{"x":"bus","y":83},{"x":"car","y":195},{"x":"moto","y":281},{"x":"bicycle","y":7},{"x":"horse","y":241},{"x":"skateboard","y":234},{"x":"others","y":14}]}]
 
 const WelcomeToOpenSource = () => (
     <div>
@@ -67,9 +81,9 @@ const WelcomeToOpenSource = () => (
         </Flex>
     </div>
 )
-const WeeklyWins = () => (
+const WeeklyHighlights = () => (
     <div>
-        <p>Weekly Wins</p>
+        <p>Weekly Highlights</p>
         <Flex>
             {users.map((props, i) => <UserCard key={i} {...props} />)}
         </Flex>
@@ -167,19 +181,23 @@ const Stats = () => (
                     </Square>
                 </div>
             </BigSquare>
-            <Box w={430} h={180} style={{ height: 180 }}>
-                <div>Criticality score</div>
-                <p style={{ fontSize: 14 }}>Curious how we compute criticality score? Check out <a href="https://github.com/ossf/criticality_score">ossf/criticality_score</a> for more information!</p>
-            </Box>
+            <Box w={430} h={180} style={{ height: 180 }} />
         </Flex>
     </>
 )
-const MostCritical = () => (
-    <div>
-        <p>Top 5 Most Critical Projects</p>
-        {lines.map((props, i) => <LineRepoCard key={i} {...props} />)}
-    </div>
-)
+const MostCritical = () => {
+    const { loading, error, data } = useQuery(GET_CRITS)
+
+    if (loading) return 'Loading...'
+    if (error) return `Error! ${error.message}`
+
+    return (
+        <div>
+            <p>Top 5 Most Critical Projects</p>
+            {data.mostCritProjects.slice(0, 5).map((props, i) => <LineRepoCard key={i} {...props} />)}
+        </div>
+    )
+}
 const HelpWanted = () => (
     <div>
         <p>Top 5 Help Wanted Projects</p>
@@ -196,12 +214,11 @@ const GoodFirstIssues = () => (
 )
 
 const Home = () => {
-    const [{ data }] = useContext(StatsContext)
     return (
         <Section>
             <Column w={630} bp={1300}>
                 <WelcomeToOpenSource />
-                <WeeklyWins />
+                <WeeklyHighlights />
                 <Contributions data={data} />
             </Column>
             <Column w={630} bp={1300}>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Box from './Box'
+import colors from '../../styles/colors'
 
 const Block = styled(Box)`
     position: relative;
@@ -45,21 +46,21 @@ const time = date => (date ? new Date(date) : new Date()).toLocaleTimeString(nav
     minute: 'numeric',
 })
 
-export const BlockRepoCard = ({ full_name, language, created_at }) => {
+export const BlockRepoCard = ({ name, language, criticality_score, url, created_since }) => {
     return (
         <Block w={200} h={125}>
-            <Title>{full_name}</Title>
-            <Label color="#22D273">{language}</Label>
-            <Timestamp>Created at {time(created_at)}</Timestamp>
+            <Title>{name}</Title>
+            <Label color={colors[language]}>{language}</Label>
+            <Timestamp>Created at {time(created_since)}</Timestamp>
         </Block>
     )
 }
 
-export const LineRepoCard = ({ full_name, language }) => {
+export const LineRepoCard = ({ name, language, criticality_score, url }) => {
     return (
         <Line w={300} h={38}>
-            <Title>{full_name}</Title>
-            <Label color="#22D273">{language}</Label>
+            <Title><a href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticality_score}</span></Title>
+            <Label color={colors[language]}>{language}</Label>
         </Line>
     )
 }
