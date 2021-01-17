@@ -69,6 +69,11 @@ const typeDefs = gql`
     url: String!
     name: String!
     nameWithOwner: String!
+    description: String
+    stargazerCount: Int
+    createdAt: String
+    updatedAt: String
+    primaryLanguage: Language
   }
 
   type Label {
@@ -76,6 +81,12 @@ const typeDefs = gql`
     name: String!
     color: String!
     isDefault: Boolean!
+  }
+
+  type Language {
+    id: ID!
+    name: String!
+    color: String
   }
 
   type Issue {
@@ -130,6 +141,7 @@ const typeDefs = gql`
     topIssues(label: LabelType = GOOD_FIRST_ISSUE, state: StateType = OPEN): [Issue]
     projectDetail(fullName: String!): Project
     recentStatistics: RecentStatistics
+    recentRepositories: [Repository]
   }
 `
 

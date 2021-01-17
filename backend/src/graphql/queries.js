@@ -279,6 +279,39 @@ query getRecentStatistics($baseQuery: String!, $prQuery: String!, $issueQuery: S
   }
 }`
 
+const getRecentRepositoriesWithMin10Stars = gql `
+{
+  search(query: "stars:>10 created:>2021-01-10", first: 100, type: REPOSITORY) {
+    repositoryCount
+    nodes {
+      __typename
+      ...RepositoryFragment
+      ... on Issue { __typename }
+      ... on App { __typename }
+      ... on MarketplaceListing { __typename }
+      ... on Organization { __typename }
+      ... on PullRequest { __typename }
+      ... on User { __typename }
+    }
+  }
+}
+fragment RepositoryFragment on Repository {
+  id
+  nameWithOwner
+  name
+  description
+  createdAt
+  updatedAt
+  url
+  stargazerCount
+  primaryLanguage {
+    id
+    name
+    color
+  }
+}
+`
+
 module.exports = {
   getRateLimit,
   getGithubUser,
@@ -287,4 +320,5 @@ module.exports = {
   getIssueContributionByRepositoryByUser,
   getTopIssues,
   getRecentStatistics,
+  getRecentRepositoriesWithMin10Stars,
 }

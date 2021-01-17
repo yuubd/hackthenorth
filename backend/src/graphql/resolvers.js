@@ -8,6 +8,7 @@ const {
   getIssueContributionByRepositoryByUser,
   getTopIssues,
   getRecentStatistics,
+  getRecentRepositoriesWithMin10Stars,
 } = require('./queries');
 
 
@@ -170,7 +171,13 @@ const resolvers = {
         console.error("recentStatistics", e)
         return null
       }
-    }
+    },
+    recentRepositories: async (parent, args, ctx) => {
+      const { data } = await ctx.client.query({ query: getRecentRepositoriesWithMin10Stars })
+      console.log(data)
+      const re = new RegExp('^[a-zA-Z0-9. -_?\r\n]*$')
+      return data.search.nodes.filter(node => re.test(node.description))
+    },
   },
 }
 
