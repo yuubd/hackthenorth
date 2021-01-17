@@ -1,12 +1,13 @@
+const { camelCase } = require('camel-case');
 const { contributionResolver } = require('./contributionResolver');
 const {
   getRateLimit,
   getGithubUser,
   getPullRequestContributionByRepositoryByUser,
   getCommitContributionByRepositoryByUser,
-  getIssueContributionByRepositoryByUser
+  getIssueContributionByRepositoryByUser,
+  getTopIssues,
 } = require('./queries');
-const { camelCase } = require('camel-case');
 
 
 // Resolvers define the technique for fetching the types defined in the
@@ -18,7 +19,7 @@ const resolvers = {
         const res = { data, loading, networkStatus, stale } = await ctx.client.query({ query: getRateLimit })
         return data.rateLimit
       } catch (e) {
-        console.log("ERROR:", e);
+        console.error("rateLimit", e);
         return null;
       }
     },
@@ -27,7 +28,7 @@ const resolvers = {
         const [data, count, command] = await ctx.sql`SELECT id FROM test`
         return data
       } catch (e) {
-        console.log("ERROR:", e);
+        console.error("dbTest", e);
         return null;
       }
     },
@@ -41,7 +42,7 @@ const resolvers = {
         })
         return data.user
       } catch (e) {
-        console.log("ERROR:", e);
+        console.error("user", e);
         return null;
       }
     },
@@ -95,11 +96,33 @@ const resolvers = {
             ORDER BY criticality_score DESC
             LIMIT 50
             `
-        const res = data.map((obj) => updateCamelCaseKeys(obj));
-        
+        return data.map((obj) => updateCamelCaseKeys(obj))
+      } catch (e) {
+        console.error("mostCritProjects", e)
+        return null
+      }
+    },
+    topIssues: async (parent, args, ctx) => {
+      try {
+        let { label, state } = args
+        const query = `label:"${label.toLowerCase()}" state:${state.toLowerCase()}`
+        // gets top 100 best match issues by label and state
+        const { data } = await ctx.client.query({
+          query: getTopIssues,
+          variables: { query },
+        })
+        const res = [];
+        for (const node of data.search?.nodes) {
+          if (node.__typename !== "Issue") continue
+          // modify node.labels.nodes
+          if (node.labels.nodes)
+            node.labels = node.labels.nodes
+          res.push(node)
+        }
+        console.log(res.length);
         return res;
       } catch (e) {
-        console.log("ERROR:", e);
+        console.error('topIssues', e)
         return null;
       }
     },
@@ -116,11 +139,11 @@ const resolvers = {
         console.log("ERROR:", e);
         return null;
       }
-    } 
+    }
   },
 }
 
-function updateCamelCaseKeys(obj) { 
+function updateCamelCaseKeys(obj) {
   let newObj = {}
   Object.keys(obj).map(key => newObj[camelCase(key)] = obj[key]);
   return newObj;

@@ -198,7 +198,70 @@ const getIssueContributionByRepositoryByUser = gql `
   }
 `
 
+const getTopIssues = gql `
+  query getTopIssues($query: String!) {
+    search(query: $query, first: 100, type: ISSUE) {
+      issueCount
+      nodes {
+        ...IssueFragment
+        ...PullRequestFragment
+        ... on App { __typename }
+        ... on MarketplaceListing { __typename }
+        ... on Organization { __typename }
+        ... on PullRequest { __typename }
+        ... on User { __typename }
+      }
+    }
+  }
 
+  fragment PullRequestFragment on PullRequest {
+    __typename
+
+    id
+    url
+    title
+    body
+    createdAt
+    updatedAt
+    repository {
+      nameWithOwner
+      name
+      url
+    }
+    labels(first: 100) {
+      nodes {
+        id
+        name
+        color
+        isDefault
+      }
+    }
+  }
+
+  fragment IssueFragment on Issue {
+    __typename
+
+    id
+    url
+    title
+    body
+    createdAt
+    updatedAt
+    repository {
+      nameWithOwner
+      name
+      url
+    }
+    labels(first: 100) {
+      nodes {
+        id
+        name
+        color
+        isDefault
+      }
+    }
+  }
+`
 
 module.exports = {
   getRateLimit,
@@ -206,4 +269,5 @@ module.exports = {
   getPullRequestContributionByRepositoryByUser,
   getCommitContributionByRepositoryByUser,
   getIssueContributionByRepositoryByUser,
+  getTopIssues,
 }
