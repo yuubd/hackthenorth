@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import './index.css';
 import App from './App';
-import { StatsProvider } from './contexts';
+// import { StatsProvider } from './contexts';
 import reportWebVitals from './reportWebVitals';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: 'http://localhost:4000/graphql'
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <StatsProvider>
+    <ApolloProvider client={client}>
       <App />
-    </StatsProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
