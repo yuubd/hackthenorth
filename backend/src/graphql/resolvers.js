@@ -84,7 +84,7 @@ const resolvers = {
     mostCritProjects: async (parent, args, ctx) => {
       try {
         const { language } = args;
-        let res = language === 'all' ?
+        const data = language === 'all' ?
           await ctx.sql`
             SELECT * FROM open_source_projects
             ORDER BY criticality_score DESC
@@ -95,19 +95,35 @@ const resolvers = {
             ORDER BY criticality_score DESC
             LIMIT 50
             `
-        res = res.map((obj) => {
-          let newObj = {}
-          Object.keys(obj).map(key => newObj[camelCase(key)] = obj[key]);
-          return newObj;
-        });
+        const res = data.map((obj) => updateCamelCaseKeys(obj));
         
         return res;
       } catch (e) {
         console.log("ERROR:", e);
         return null;
       }
-    }
+    },
+    projectDetail: async (parent, args, ctx) => {
+      try {
+        const { fullName } = args;
+        const data = await ctx.sql`
+          SELECT * FROM open_source_projects WHERE full_name=${fullName}
+          LIMIT 1
+          `
+          const res = updateCamelCaseKeys(data[0]);
+          return res;
+      } catch (e) {
+        console.log("ERROR:", e);
+        return null;
+      }
+    } 
   },
+}
+
+function updateCamelCaseKeys(obj) { 
+  let newObj = {}
+  Object.keys(obj).map(key => newObj[camelCase(key)] = obj[key]);
+  return newObj;
 }
 
 module.exports = {

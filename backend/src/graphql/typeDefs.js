@@ -85,6 +85,7 @@ const typeDefs = gql`
     commitsContributionByUser(logins: String!): [ContributionsByUser]!,
     issuesContributionByUser(logins: String!): [ContributionsByUser]!,
     mostCritProjects(language: String = "all"): [Project],
+    projectDetail(fullName: String!): Project
   }
 `
 
