@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Box from './Box'
+import colors from '../../styles/colors'
 
 const Block = styled(Box)`
     position: relative;
@@ -12,12 +13,13 @@ const Title = styled.div`
 `
 const Label = styled.span`
     background-color: ${({color}) => color};
-    border-radius: 15px;
+    border-radius: 2em;
+    color: white;
+    display: inline-block;
     font-size: 12px;
     height: fit-content;
-    margin: auto 0;
-    padding: 0 2.5px;
-    color: white;
+    margin: auto 5px 2.5px 0;
+    padding: 2.5px 5px;
 `
 const Timestamp = styled.span`
     position: absolute;
@@ -45,21 +47,21 @@ const time = date => (date ? new Date(date) : new Date()).toLocaleTimeString(nav
     minute: 'numeric',
 })
 
-export const BlockRepoCard = ({ full_name, language, created_at }) => {
+export const BlockRepoCard = ({ name, language, createdSince }) => {
     return (
         <Block w={200} h={125}>
-            <Title>{full_name}</Title>
-            <Label color="#22D273">{language}</Label>
-            <Timestamp>Created at {time(created_at)}</Timestamp>
+            <Title>{name}</Title>
+            <Label color={colors[language]}>{language}</Label>
+            <Timestamp>Created at {time(createdSince)}</Timestamp>
         </Block>
     )
 }
 
-export const LineRepoCard = ({ full_name, language }) => {
+export const LineRepoCard = ({ name, language, criticalityScore, url, ...props }) => {
     return (
-        <Line w={300} h={38}>
-            <Title>{full_name}</Title>
-            <Label color="#22D273">{language}</Label>
+        <Line w={300} h={38} {...props}>
+            <Title><a href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticalityScore}</span></Title>
+            <Label color={colors[language]}>{language}</Label>
         </Line>
     )
 }
