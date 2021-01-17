@@ -7,6 +7,7 @@ const Card = styled(Box)`
 `
 const Title = styled.div`
     font-size: 14px;
+    font-weight: bold;
 `
 const Label = styled.div`
     background-color: #${({color}) => color};

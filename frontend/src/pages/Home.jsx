@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { gql, useQuery } from '@apollo/client'
 import { Select, MenuItem } from '@material-ui/core'
 import { millify } from 'millify'
-import Contributions from '../components/Contributions'
+import ContributionTabs from '../components/Contributions/ContributionTabs'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
 
 const GET_CRITS = gql`
@@ -124,7 +124,7 @@ const BigSquare = styled.div`
     }
 `
 
-const users = [{ name: 'GwangChul Kim', login: 'yuubd', followers: 6, following: 6, avatar_url: 'https://avatars1.githubusercontent.com/u/29908984?s=460&u=2573e8a1294b10ae94257ba1b953b6c9a5acebe1&v=4' },{ name: 'Seung Won [Tom] Lee', login: 'bwdmonkey', followers: 17, following: 17, avatar_url: 'https://avatars0.githubusercontent.com/u/19914676?s=460&u=3bc02c0251fdd392d3edb2183c050ad13e4232ef&v=4' },{ name: 'Alice', login: 'yehee', followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' }]
+const users = [{ name: 'GwangChul Kim', login: 'yuubd', contributePts: 21, followers: 6, following: 6, avatar_url: 'https://avatars1.githubusercontent.com/u/29908984?s=460&u=2573e8a1294b10ae94257ba1b953b6c9a5acebe1&v=4' },{ name: 'Seung Won [Tom] Lee', login: 'bwdmonkey', contributePts: 15, followers: 17, following: 17, avatar_url: 'https://avatars0.githubusercontent.com/u/19914676?s=460&u=3bc02c0251fdd392d3edb2183c050ad13e4232ef&v=4' },{ name: 'Alice', login: 'yehee', contributePts: 23, followers: 13, following: 7, avatar_url: 'https://avatars0.githubusercontent.com/u/28884850?s=460&u=52acb3c52c65dfac5c93d0ac4eb5ade631bbb51b&v=4' }]
 const data = [{"id":"commits","color":"hsl(348, 95%, 68%)","data":[{"x":"plane","y":186},{"x":"helicopter","y":234},{"x":"boat","y":126},{"x":"train","y":227},{"x":"subway","y":158},{"x":"bus","y":104},{"x":"car","y":226},{"x":"moto","y":287},{"x":"bicycle","y":17},{"x":"horse","y":11},{"x":"skateboard","y":187},{"x":"others","y":27}]},{"id":"pull requests","color":"hsl(39, 100%, 50%)","data":[{"x":"plane","y":5},{"x":"helicopter","y":90},{"x":"boat","y":237},{"x":"train","y":114},{"x":"subway","y":13},{"x":"bus","y":200},{"x":"car","y":166},{"x":"moto","y":287},{"x":"bicycle","y":68},{"x":"horse","y":259},{"x":"skateboard","y":77},{"x":"others","y":80}]},{"id":"comments","color":"hsl(155, 67%, 45%)","data":[{"x":"plane","y":254},{"x":"helicopter","y":201},{"x":"boat","y":196},{"x":"train","y":18},{"x":"subway","y":122},{"x":"bus","y":291},{"x":"car","y":179},{"x":"moto","y":85},{"x":"bicycle","y":164},{"x":"horse","y":1},{"x":"skateboard","y":136},{"x":"others","y":263}]}]
 
 const WelcomeToOpenSource = () => {
@@ -155,46 +155,46 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
     if (loading) return 'Loading...'
     if (error) return `Error! ${error.message}`
 
-    return (    
+    return (
         <>
             <p>Statistics</p>
             <Flex>
                 <BigSquare w={180} h={180}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.issueCount, {precision: 1})}</div>
-                            <div>Issues</div>
+                        <Square w={85} h={85} style={{ background: '#ffc429' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white'}}>{millify(data.recentStatistics.issueCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Issues</div>
                         </Square>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.repositoryCount, {precision: 1})}</div>
-                            <div>Repos</div>
+                        <Square w={85} h={85} style={{ background: '#ffa929' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white' }}>{millify(data.recentStatistics.repositoryCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Repos</div>
                         </Square>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.userCount, {precision: 1})}</div>
-                            <div>Users</div>
+                        <Square w={85} h={85} style={{ background: '#ff8a1f' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white' }}>{millify(data.recentStatistics.userCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>Users</div>
                         </Square>
-                        <Square w={85} h={85} fixed>
-                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.pullRequestCount, {precision: 1})}</div>
-                            <div>PRs</div>
+                        <Square w={85} h={85} style={{ background: '#ffc429' }} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 20, color:'white'}}>{millify(data.recentStatistics.pullRequestCount, {precision: 1})}</div>
+                            <div style={{fontSize: 16, fontWeight: 'bold', color:'white'}}>PRs</div>
                         </Square>
                     </div>
                 </BigSquare>
                 <Box w={430} h={180} style={{ height: 180, padding: 20, position: 'relative' }}>
                     <div style={{ position: 'absolute', right: 20, top: 20, textAlign: 'center', fontSize: 12 }}>
-                        <div style={{ fontSize: 24, fontWeight: 'bold' }}>{criticalityScore}</div>
+                        <div style={{ fontSize: 28, fontWeight: 'bold', color: '#3884AE'}}>{criticalityScore}</div>
                         <div>Highly critical</div>
                     </div>
                     <div style={{ fontSize: 16 }}>{fullName}</div>
                     <div style={{ fontSize: 12 }}>
                         {/* TODO: no datetime available? */}
-                        <p>Created {createdSince} month ago</p>
+                        <p style={{ display: 'flex', justifyContent: 'left'}}>Created <div style={{marginLeft: 3, marginRight: 3, fontWeight: 'bold'}}>{createdSince} </div> month ago</p>
                         <div style={{ display: 'flex' }}>
-                            <div style={{ flex: 1, padding: 10 }}>{`${dependentsCount} projects depend on this project`}</div>
-                            <div style={{ flex: 1, padding: 10 }}>{`${contributorCount} contributors`}</div>
-                            <div style={{ flex: 1, padding: 10 }}>{`${commitFrequency} commits per week`}</div>
-                            <div style={{ flex: 1, padding: 10 }}>{`${commentFrequency} comments per week`}</div>
+                            <div style={{ flex: 1, padding: 10, textAlign: 'center' }}>{<div style={{fontSize: 22}}>{dependentsCount}</div>} <div>projects</div>  <div>depend on it</div></div>
+                            <div style={{ flex: 1, padding: 10, textAlign: 'center' }}>{<div style={{fontSize: 22}}> {contributorCount} </div>} contributors</div>
+                            <div style={{ flex: 1, padding: 10, textAlign: 'center' }}>{<div style={{fontSize: 22}}>{commitFrequency}</div>} commits per week</div>
+                            <div style={{ flex: 1, padding: 10, textAlign: 'center' }}>{<div style={{fontSize: 22}}>{commentFrequency}</div>} comments per week</div>
                         </div>
                         <a href="https://github.com/ossf/criticality_score" style={{ color: '#3884AE', float: 'right' }}>Curious how we compute criticality score?</a>
                     </div>
@@ -225,12 +225,12 @@ const ByLanguage = ({ setSelected, language, setLanguage }) => {
 
     return (
         <div>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex'}}>
                 <p>Top Projects by Language</p>
                 <Select
                     autoWidth
                     value={language}
-                    style={{ marginLeft: 10 }}
+                    style={{ marginLeft: 10, maxHeight: 40, top: 5 }}
                     onChange={e => setLanguage(e.target.value)}>
                     <MenuItem value="Go">Go</MenuItem>
                     <MenuItem value="JavaScript">JavaScript</MenuItem>
@@ -274,13 +274,14 @@ const Home = () => {
         "criticalityScore": 0.98634
     })
     const [language, setLanguage] = useState('all')
-    
+
     return (
         <Section>
             <Column w={630} bp={1300}>
                 <WelcomeToOpenSource />
                 <WeeklyHighlights />
-                <Contributions data={data} />
+                <br />
+                <ContributionTabs></ContributionTabs>
             </Column>
             <Column w={630} bp={1300}>
                 <Stats selected={selected} />

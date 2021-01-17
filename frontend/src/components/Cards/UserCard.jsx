@@ -23,12 +23,16 @@ const UserInfo = styled.div`
     text-align: center;
     width: 50%;
 `
-const UserCard = ({ name, login, followers, following, avatar_url }) => {
+const LogIn = styled.div`
+    font-size: 16px;
+`
+const UserCard = ({ name, login, contributePts, followers, following, avatar_url }) => {
     return (
         <Card w={200} h={125}>
             <Avatar src={avatar_url} alt="profile" />
             <UserInfo>
-                <div>{login}</div>
+                <LogIn>{login}</LogIn>
+                <div>{contributePts} contr. pts</div>
                 <div>{followers} followers</div>
                 <div>{following} following</div>
             </UserInfo>
