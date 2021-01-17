@@ -157,7 +157,7 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
 
     return (
         <>
-            <p>Statistics</p>
+            <p>This Week's New...</p>
             <Flex>
                 <BigSquare w={180} h={180}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
