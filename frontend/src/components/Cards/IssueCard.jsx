@@ -8,21 +8,24 @@ const Card = styled(Box)`
 const Title = styled.div`
     font-size: 14px;
 `
-const Label = styled.span`
-    background-color: ${({color}) => color};
-    border-radius: 15px;
-    height: fit-content;
-    margin: auto 5px auto 0;
-    padding: 0 2.5px;
+const Label = styled.div`
+    background-color: #${({color}) => color};
+    border-radius: 2em;
     color: white;
+    display: inline-block;
+    height: fit-content;
+    margin: auto 5px 2.5px 0;
+    padding: 2.5px 5px;
 `
 
-const IssueCard = ({ title, labels, comments }) => {
+const IssueCard = ({ title, body, createdAt, labels }) => {
     return (
         <Card w={200} h={240}>
             <Title>{title}</Title>
-            {labels.map(({ name, color }) => <Label key={name} color={color}>{name}</Label>)}
-            <div>{comments} comments</div>
+            <div>
+                {labels.map(({ name, color }) => <Label key={name} color={color}>{name}</Label>)}
+            </div>
+            <div style={{ overflowWrap: 'anywhere' }}>{body.slice(0, 200)}</div>
         </Card>
     )
 }
