@@ -26,6 +26,7 @@ const contributionResolver = async (login, ctx, type, key, query) => {
         })
       }
     }
+    userContributions.sort((a, b) => new Date(a.occurredAt) - new Date(b.occurredAt))
   return {
     type,
     user: user,
