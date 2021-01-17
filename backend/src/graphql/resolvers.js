@@ -148,7 +148,7 @@ const resolvers = {
     recentStatistics: async (parent, args, ctx) => {
       try {
         const today = new Date()
-        const lastWeek = new Date(today.getDate() - 7) // -7 days
+        const lastWeek = new Date(today - (24 * 60 * 60 * 1000) * 7) // -7 days
         const baseQuery = `created:>${lastWeek.toISOString()}`
         const prQuery = `${baseQuery} is:pr`
         const issueQuery = `${baseQuery} is:issue`

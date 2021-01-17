@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { gql, useQuery } from '@apollo/client'
 import { Select, MenuItem } from '@material-ui/core'
+import { millify } from 'millify'
 import Contributions from '../components/Contributions'
 import { IssueCard, BlockRepoCard, LineRepoCard, UserCard, Box } from '../components/Cards'
 
@@ -43,6 +44,17 @@ const GET_ISSUES = gql`
                 color
                 isDefault
             }
+        }
+    }
+`
+
+const GET_STATS = gql`
+    query {
+        recentStatistics {
+            repositoryCount
+            userCount
+            pullRequestCount
+            issueCount
         }
     }
 `
@@ -117,53 +129,61 @@ const WeeklyHighlights = () => (
         </Flex>
     </div>
 )
-const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commitFrequency, commentFrequency, dependentsCount } }) => (
-    <>
-        <p>Statistics</p>
-        <Flex>
-            <BigSquare w={180} h={180}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <Square w={85} h={85} fixed>
-                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>21</div>
-                        <div>Issues</div>
-                    </Square>
-                    <Square w={85} h={85} fixed>
-                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>50</div>
-                        <div>Commits</div>
-                    </Square>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                    <Square w={85} h={85} fixed>
-                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>2.8M</div>
-                        <div>Users</div>
-                    </Square>
-                    <Square w={85} h={85} fixed>
-                        <div style={{ fontWeight: 'bold', fontSize: 18 }}>12</div>
-                        <div>PRs</div>
-                    </Square>
-                </div>
-            </BigSquare>
-            <Box w={430} h={180} style={{ height: 180, padding: 20, position: 'relative' }}>
-                <div style={{ position: 'absolute', right: 20, top: 20, textAlign: 'center', fontSize: 12 }}>
-                    <div style={{ fontSize: 24, fontWeight: 'bold' }}>{criticalityScore}</div>
-                    <div>Highly critical</div>
-                </div>
-                <div style={{ fontSize: 16 }}>{fullName}</div>
-                <div style={{ fontSize: 12 }}>
-                    {/* TODO: no datetime available? */}
-                    <p>Created at Jan 16, 2021, 4:49 PM</p>
-                    <div style={{ display: 'flex' }}>
-                        <div style={{ flex: 1, padding: 10 }}>{`${dependentsCount} projects depend on this project`}</div>
-                        <div style={{ flex: 1, padding: 10 }}>{`${contributorCount} contributors`}</div>
-                        <div style={{ flex: 1, padding: 10 }}>{`${commitFrequency} commits per week`}</div>
-                        <div style={{ flex: 1, padding: 10 }}>{`${commentFrequency} comments per week`}</div>
+const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commitFrequency, commentFrequency, dependentsCount, createdSince} }) =>  {
+    const { loading, error, data } = useQuery(GET_STATS)
+    if (loading) return 'Loading...'
+    if (error) return `Error! ${error.message}`
+
+    return (    
+        <>  
+            {/* TODO: help! want to place Project Breakdown on top of the bug rectable on the right side */}
+            <p>This Week's New {`\xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0`} Project Breakdown</p>
+            <Flex>
+                <BigSquare w={180} h={180}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Square w={85} h={85} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.issueCount, {precision: 1})}</div>
+                            <div>Issues</div>
+                        </Square>
+                        <Square w={85} h={85} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.repositoryCount, {precision: 1})}</div>
+                            <div>Repos</div>
+                        </Square>
                     </div>
-                    <a href="https://github.com/ossf/criticality_score" style={{ color: '#3884AE', float: 'right' }}>Curious how we compute criticality score?</a>
-                </div>
-            </Box>
-        </Flex>
-    </>
-)
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Square w={85} h={85} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.userCount, {precision: 1})}</div>
+                            <div>Users</div>
+                        </Square>
+                        <Square w={85} h={85} fixed>
+                            <div style={{ fontWeight: 'bold', fontSize: 18 }}>{millify(data.recentStatistics.pullRequestCount, {precision: 1})}</div>
+                            <div>PRs</div>
+                        </Square>
+                    </div>
+                </BigSquare>
+                <Box w={430} h={180} style={{ height: 180, padding: 20, position: 'relative' }}>
+                    <div style={{ position: 'absolute', right: 20, top: 20, textAlign: 'center', fontSize: 12 }}>
+                        <div style={{ fontSize: 24, fontWeight: 'bold' }}>{criticalityScore}</div>
+                        <div>Highly critical</div>
+                    </div>
+                    <div style={{ fontSize: 16 }}>{fullName}</div>
+                    <div style={{ fontSize: 12 }}>
+                        {/* TODO: no datetime available? */}
+                        <p>Created {createdSince} month ago</p>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ flex: 1, padding: 10 }}>{`${dependentsCount} projects depend on this project`}</div>
+                            <div style={{ flex: 1, padding: 10 }}>{`${contributorCount} contributors`}</div>
+                            <div style={{ flex: 1, padding: 10 }}>{`${commitFrequency} commits per week`}</div>
+                            <div style={{ flex: 1, padding: 10 }}>{`${commentFrequency} comments per week`}</div>
+                        </div>
+                        <a href="https://github.com/ossf/criticality_score" style={{ color: '#3884AE', float: 'right' }}>Curious how we compute criticality score?</a>
+                    </div>
+                </Box>
+            </Flex>
+        </>
+    )
+}
+
 const MostCritical = ({ setSelected }) => {
     const { loading, error, data } = useQuery(GET_CRITS)
 
