@@ -1,8 +1,19 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  # enums
+  enum LabelType {
+    GOOD_FIRST_ISSUE
+    HELP_WANTED
+  }
+
+  enum StateType {
+    OPEN
+    CLOSED
+  }
+
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-   type RateLimit {
+  type RateLimit {
     cost: Int!
     limit: Int!
     nodeCount: Int!
@@ -55,21 +66,45 @@ const typeDefs = gql`
   }
 
   type Project {
-    projectid: ID!,
-    name: String!, 
-    url: String!,
-    language: String!,
-    created_since: Int,
-    updated_since: Int,
-    contributor_count: Int,
-    org_count: Int,
-    commit_frequency: Float,
-    recent_releases_count: Int,
-    updated_issues_count: Int,
-    closed_issues_count: Int,
-    comment_frequency: Float,
-    dependents_count: Int,
+    projectid: ID!
+    name: String!
+    url: String!
+    language: String!
+    created_since: Int
+    updated_since: Int
+    contributor_count: Int
+    org_count: Int
+    commit_frequency: Float
+    recent_releases_count: Int
+    updated_issues_count: Int
+    closed_issues_count: Int
+    comment_frequency: Float
+    dependents_count: Int
     criticality_score: Float!
+  }
+
+  type Repository {
+    url: String!
+    name: String!
+    nameWithOwner: String!
+  }
+
+  type Label {
+    id: ID!
+    name: String!
+    color: String!
+    isDefault: Boolean!
+  }
+
+  type Issue {
+    id: ID!
+    title: String!
+    url: String!
+    body: String
+    createdAt: String
+    updatedAt: String
+    repository: Repository!
+    labels: [Label]!
   }
 
   # The "Query" type is special: it lists all of the available queries that
@@ -83,6 +118,7 @@ const typeDefs = gql`
     commitsContributionByUser(logins: String!): [ContributionsByUser]!,
     issuesContributionByUser(logins: String!): [ContributionsByUser]!,
     mostCritProjects(language: String = "all"): [Project]
+    topIssues(label: LabelType = GOOD_FIRST_ISSUE, state: StateType = OPEN): [Issue]
   }
 `
 
