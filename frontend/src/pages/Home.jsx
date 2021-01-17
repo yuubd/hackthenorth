@@ -156,9 +156,7 @@ const Stats = ({ selected: { fullName, criticalityScore, contributorCount, commi
     if (error) return `Error! ${error.message}`
 
     return (    
-        <>  
-            {/* TODO: help! want to place Project Breakdown on top of the bug rectable on the right side */}
-            <p>This Week's New {`\xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0`} Project Breakdown</p>
+        <> 
             <Flex>
                 <BigSquare w={180} h={180}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
