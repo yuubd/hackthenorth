@@ -96,15 +96,10 @@ const resolvers = {
             ORDER BY criticality_score DESC
             LIMIT 50
             `
-<<<<<<< HEAD
-=======
-        const res = data.map((obj) => updateCamelCaseKeys(obj));
-
->>>>>>> master
-        return res;
+        return data.map((obj) => updateCamelCaseKeys(obj))
       } catch (e) {
-        console.error("mostCritProjects", e);
-        return null;
+        console.error("mostCritProjects", e)
+        return null
       }
     },
     topIssues: async (parent, args, ctx) => {
