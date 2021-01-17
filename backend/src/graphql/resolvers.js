@@ -113,14 +113,17 @@ const resolvers = {
           variables: { query },
         })
         const res = [];
+        const re = new RegExp('^[a-zA-Z0-9. -_?\r\n]*$')
         for (const node of data.search?.nodes) {
           if (node.__typename !== "Issue") continue
+          if (!re.test(node.title)) continue
+          if (!re.test(node.body)) continue
+
           // modify node.labels.nodes
           if (node.labels.nodes)
             node.labels = node.labels.nodes
           res.push(node)
         }
-        console.log(res.length);
         return res;
       } catch (e) {
         console.error('topIssues', e)
