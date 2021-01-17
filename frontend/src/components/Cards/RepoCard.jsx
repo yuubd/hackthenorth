@@ -46,20 +46,20 @@ const time = date => (date ? new Date(date) : new Date()).toLocaleTimeString(nav
     minute: 'numeric',
 })
 
-export const BlockRepoCard = ({ name, language, criticality_score, url, created_since }) => {
+export const BlockRepoCard = ({ name, language, createdSince }) => {
     return (
         <Block w={200} h={125}>
             <Title>{name}</Title>
             <Label color={colors[language]}>{language}</Label>
-            <Timestamp>Created at {time(created_since)}</Timestamp>
+            <Timestamp>Created at {time(createdSince)}</Timestamp>
         </Block>
     )
 }
 
-export const LineRepoCard = ({ name, language, criticality_score, url }) => {
+export const LineRepoCard = ({ name, language, criticalityScore, url, ...props }) => {
     return (
-        <Line w={300} h={38}>
-            <Title><a href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticality_score}</span></Title>
+        <Line w={300} h={38} {...props}>
+            <Title><a href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticalityScore}</span></Title>
             <Label color={colors[language]}>{language}</Label>
         </Line>
     )
