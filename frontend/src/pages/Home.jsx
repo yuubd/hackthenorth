@@ -64,6 +64,30 @@ query {
 }
 `
 
+const GET_ISSUES = gql`
+    query {
+        topIssues {
+            id
+            title
+            url
+            body
+            createdAt
+            updatedAt
+            repository {
+                url
+                name
+                nameWithOwner
+            }
+            labels {
+                id
+                name
+                color
+                isDefault
+            }
+        }
+    }
+`
+
 const Section = styled.div`
     box-sizing: border-box;
     width: 1300px;
