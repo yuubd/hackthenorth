@@ -1,9 +1,5 @@
 import { gql } from '@apollo/client'
 
-import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import CompareArrowsSharpIcon from '@material-ui/icons/CompareArrowsSharp';
-import EmojiEmotionsSharpIcon from '@material-ui/icons/EmojiEmotionsSharp';
-import CallSplitSharpIcon from '@material-ui/icons/CallSplitSharp';
 import { AppBar, Tab, Tabs, Box, Typography, makeStyles, TextField } from '@material-ui/core'
 import React from 'react'
 import Contributions from './ContributionGraph';

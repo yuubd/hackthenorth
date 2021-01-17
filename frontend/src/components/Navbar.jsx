@@ -9,7 +9,8 @@ const StyledNavbar = styled.div`
     display: flex;
     position: fixed;
     width: 100%;
-    padding: 0 15px;
+    padding: 0;
+    background-color: #DDDDDD;
 `
 const Heading = styled.p`
     margin-left: 30px;
@@ -19,7 +20,8 @@ const Heading = styled.p`
 const Navbar = ({ dark, setDark }) => {
     return (
         <StyledNavbar>
-            <Heading>Dashboard</Heading>
+            <div style={{marginLeft: 20}}>OpenUp 🌍</div>
+            <Heading>Open Source Hub</Heading>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Switch checked={dark} onChange={e => setDark(e.target.checked)}/>
                 <a href="https://github.com/yuubd/hackthenorth">
