@@ -181,7 +181,23 @@ const Stats = () => (
                     </Square>
                 </div>
             </BigSquare>
-            <Box w={430} h={180} style={{ height: 180 }} />
+            <Box w={430} h={180} style={{ height: 180, padding: 20, position: 'relative' }}>
+                <div style={{ position: 'absolute', right: 20, top: 20, textAlign: 'center', fontSize: 12 }}>
+                    <div style={{ fontSize: 24, fontWeight: 'bold' }}>98.6</div>
+                    <div>Highly critical</div>
+                </div>
+                <div style={{ fontSize: 16 }}>kubernetes/kubernetes</div>
+                <div style={{ fontSize: 12 }}>
+                    <p>Created at Jan 16, 2021, 4:49 PM</p>
+                    <div>
+                        407254 projects depend on this project<br/>
+                        3664 contributors<br/>
+                        102.7 commits per week<br/>
+                        5.7 comments per week
+                    </div>
+                    <a href="https://github.com/ossf/criticality_score" style={{ color: '#3884AE', float: 'right' }}>Curious how we compute criticality score?</a>
+                </div>
+            </Box>
         </Flex>
     </>
 )
