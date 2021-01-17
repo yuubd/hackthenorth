@@ -22,6 +22,30 @@ const GET_CRITS = gql`
     }
 `
 
+const GET_ISSUES = gql`
+    query {
+        topIssues {
+            id
+            title
+            url
+            body
+            createdAt
+            updatedAt
+            repository {
+                url
+                name
+                nameWithOwner
+            }
+            labels {
+                id
+                name
+                color
+                isDefault
+            }
+        }
+    }
+`
+
 const Section = styled.div`
     box-sizing: border-box;
     width: 1300px;
@@ -158,14 +182,21 @@ const HelpWanted = ({ setSelected }) => (
         {lines.map((props, i) => <LineRepoCard key={i} {...props} onClick={() => setSelected(props)} />)}
     </div>
 )
-const GoodFirstIssues = () => (
-    <div>
-        <p>Good First Issues</p>
-        <Flex>
-            {issues.map((props, i) => <IssueCard key={i} {...props} />)}
-        </Flex>
-    </div>
-)
+const GoodFirstIssues = () => {
+    const { loading, error, data } = useQuery(GET_ISSUES)
+
+    if (loading) return 'Loading...'
+    if (error) return `Error! ${error.message}`
+
+    return (
+        <div>
+            <p>Good First Issues</p>
+            <Flex>
+                {data.topIssues.slice(0, 3).map((props, i) => <IssueCard key={i} {...props} />)}
+            </Flex>
+        </div>
+    )
+}
 
 const Home = () => {
     const [selected, setSelected] = useState({

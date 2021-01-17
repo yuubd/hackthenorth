@@ -13,12 +13,13 @@ const Title = styled.div`
 `
 const Label = styled.span`
     background-color: ${({color}) => color};
-    border-radius: 15px;
+    border-radius: 2em;
+    color: white;
+    display: inline-block;
     font-size: 12px;
     height: fit-content;
-    margin: auto 0;
-    padding: 0 2.5px;
-    color: white;
+    margin: auto 5px 2.5px 0;
+    padding: 2.5px 5px;
 `
 const Timestamp = styled.span`
     position: absolute;
