@@ -15,6 +15,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
   playground: true,
   context: (req) => {
     const client = new ApolloClient({
@@ -36,6 +37,6 @@ const server = new ApolloServer({
 });
 
 // The `listen` method launches a web server.
-server.listen().then(({ url }) => {
+server.listen(process.env.PORT || 4000).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
