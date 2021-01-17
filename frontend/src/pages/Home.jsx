@@ -189,6 +189,7 @@ const ByLanguage = ({ setSelected, language, setLanguage }) => {
                 <p>Top Projects by Language</p>
                 <Select
                     autoWidth
+                    value={language}
                     style={{ marginLeft: 10 }}
                     onChange={e => setLanguage(e.target.value)}>
                     <MenuItem value="Go">Go</MenuItem>
