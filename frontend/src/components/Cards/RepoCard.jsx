@@ -60,7 +60,7 @@ export const BlockRepoCard = ({ nameWithOwner, primaryLanguage: { name, color },
 export const LineRepoCard = ({ name, language, criticalityScore, url, ...props }) => {
     return (
         <Line w={300} h={38} {...props}>
-            <Title><a href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticalityScore}</span></Title>
+            <Title><a style={{fontWeight: 'bold'}} href={url}>{name}</a> <span style={{ fontSize: 12 }}>{criticalityScore}</span></Title>
             <Label color={colors[language]}>{language}</Label>
         </Line>
     )
