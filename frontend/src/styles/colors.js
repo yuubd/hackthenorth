@@ -4,7 +4,7 @@ const colors = {
     Rust: '#FFA400',
     Scala: '#F9690E',
     'C++': '#F62459',
-    Java: 'pink'
+    Java: '#f7797d'
 }
 
 export default colors
