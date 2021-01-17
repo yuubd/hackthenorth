@@ -47,12 +47,12 @@ const time = date => (date ? new Date(date) : new Date()).toLocaleTimeString(nav
     minute: 'numeric',
 })
 
-export const BlockRepoCard = ({ name, language, createdSince }) => {
+export const BlockRepoCard = ({ nameWithOwner, primaryLanguage: { name, color }, createdAt }) => {
     return (
         <Block w={200} h={125}>
-            <Title>{name}</Title>
-            <Label color={colors[language]}>{language}</Label>
-            <Timestamp>Created at {time(createdSince)}</Timestamp>
+            <Title>{nameWithOwner}</Title>
+            <Label color={color}>{name}</Label>
+            <Timestamp>Created at {time(createdAt)}</Timestamp>
         </Block>
     )
 }
